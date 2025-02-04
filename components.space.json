@@ -1,0 +1,420 @@
+{
+  "components": [
+    {
+      "name": "active_ingredients",
+      "display_name": null,
+      "description": null,
+      "created_at": "2025-02-04T19:08:07.011Z",
+      "updated_at": "2025-02-04T19:14:34.095Z",
+      "id": 6909812,
+      "schema": {
+        "name": {
+          "type": "text",
+          "pos": 0,
+          "id": "PhJPHqOGS1OMUgx81Fr32Q"
+        },
+        "amount": {
+          "type": "number",
+          "pos": 1,
+          "id": "I4V1ytMiQVCJDyCx4Y-saQ"
+        },
+        "units": {
+          "type": "text",
+          "pos": 2,
+          "id": "MZLFUoEaSxKndG3agBVbRQ"
+        }
+      },
+      "image": null,
+      "preview_field": null,
+      "is_root": false,
+      "preview_tmpl": null,
+      "is_nestable": true,
+      "all_presets": [],
+      "preset_id": null,
+      "real_name": "active_ingredients",
+      "component_group_uuid": "11eff8a3-c034-4fbb-afeb-f3579a46e894",
+      "color": null,
+      "icon": null,
+      "internal_tags_list": [
+        {
+          "id": 58115,
+          "name": "Product"
+        }
+      ],
+      "internal_tag_ids": [
+        "58115"
+      ],
+      "content_type_asset_preview": null,
+      "component_group_name": "Product"
+    },
+    {
+      "name": "feature",
+      "display_name": null,
+      "description": null,
+      "created_at": "2025-02-03T16:23:32.436Z",
+      "updated_at": "2025-02-03T16:23:32.436Z",
+      "id": 6902648,
+      "schema": {
+        "name": {
+          "type": "text",
+          "id": "QEng40FASm2dYEr78aFpCA"
+        }
+      },
+      "image": null,
+      "preview_field": null,
+      "is_root": false,
+      "preview_tmpl": null,
+      "is_nestable": true,
+      "all_presets": [],
+      "preset_id": null,
+      "real_name": "feature",
+      "component_group_uuid": null,
+      "color": null,
+      "icon": null,
+      "internal_tags_list": [],
+      "internal_tag_ids": [],
+      "content_type_asset_preview": null
+    },
+    {
+      "name": "grid",
+      "display_name": null,
+      "description": null,
+      "created_at": "2025-02-03T16:23:32.413Z",
+      "updated_at": "2025-02-03T16:23:32.413Z",
+      "id": 6902647,
+      "schema": {
+        "columns": {
+          "type": "bloks",
+          "id": "5g_HQhQPTF2Zc-CAPQlo7g"
+        }
+      },
+      "image": null,
+      "preview_field": null,
+      "is_root": false,
+      "preview_tmpl": null,
+      "is_nestable": true,
+      "all_presets": [],
+      "preset_id": null,
+      "real_name": "grid",
+      "component_group_uuid": null,
+      "color": null,
+      "icon": null,
+      "internal_tags_list": [],
+      "internal_tag_ids": [],
+      "content_type_asset_preview": null
+    },
+    {
+      "name": "page",
+      "display_name": null,
+      "description": null,
+      "created_at": "2025-02-03T16:23:32.355Z",
+      "updated_at": "2025-02-03T16:23:32.355Z",
+      "id": 6902645,
+      "schema": {
+        "body": {
+          "type": "bloks",
+          "id": "v6eIVsHYSJiBeNTYji3nWg"
+        }
+      },
+      "image": null,
+      "preview_field": null,
+      "is_root": true,
+      "preview_tmpl": null,
+      "is_nestable": false,
+      "all_presets": [],
+      "preset_id": null,
+      "real_name": "page",
+      "component_group_uuid": null,
+      "color": null,
+      "icon": null,
+      "internal_tags_list": [],
+      "internal_tag_ids": [],
+      "content_type_asset_preview": null
+    },
+    {
+      "name": "product",
+      "display_name": "Products",
+      "description": null,
+      "created_at": "2025-02-04T18:51:26.400Z",
+      "updated_at": "2025-02-04T19:14:03.963Z",
+      "id": 6909774,
+      "schema": {
+        "name": {
+          "type": "text",
+          "pos": 0,
+          "id": "v8NtVqq-R9KP1Gi7xXzLNw",
+          "translatable": true,
+          "required": true
+        },
+        "tagline": {
+          "type": "text",
+          "pos": 1,
+          "id": "84ifEHkaR_CzeBw8ennW0w",
+          "translatable": true,
+          "required": true
+        },
+        "description": {
+          "type": "markdown",
+          "pos": 2,
+          "id": "FkHmg2oZTbWCBcaQBNkfhA",
+          "translatable": true,
+          "required": true
+        },
+        "product": {
+          "type": "asset",
+          "pos": 3,
+          "id": "N9W4DKgRQYuNODxcQr0tVQ"
+        },
+        "variants": {
+          "type": "bloks",
+          "pos": 5,
+          "id": "8CvOj8e3RkqRr6ChVCiOUA",
+          "display_name": "variants",
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "product_variant"
+          ]
+        }
+      },
+      "image": null,
+      "preview_field": null,
+      "is_root": true,
+      "preview_tmpl": null,
+      "is_nestable": false,
+      "all_presets": [],
+      "preset_id": null,
+      "real_name": "Products",
+      "component_group_uuid": "11eff8a3-c034-4fbb-afeb-f3579a46e894",
+      "color": null,
+      "icon": "block-text-img-t-l",
+      "internal_tags_list": [
+        {
+          "id": 58115,
+          "name": "Product"
+        }
+      ],
+      "internal_tag_ids": [
+        "58115"
+      ],
+      "content_type_asset_preview": null,
+      "component_group_name": "Product"
+    },
+    {
+      "name": "product_documents",
+      "display_name": null,
+      "description": null,
+      "created_at": "2025-02-04T19:09:16.855Z",
+      "updated_at": "2025-02-04T19:10:08.084Z",
+      "id": 6909813,
+      "schema": {
+        "document_name": {
+          "type": "option",
+          "pos": 0,
+          "use_uuid": true,
+          "options": [
+            {
+              "_uid": "c5a0fa68-cfd6-43cb-8473-fce165769902",
+              "name": "Safety Data Sheet",
+              "value": "sds"
+            },
+            {
+              "_uid": "69a0c469-9a13-4ad5-9883-68a9d663a32d",
+              "value": "label",
+              "name": "Label"
+            },
+            {
+              "_uid": "f0c1ddeb-57f8-4080-b0a6-2b6052dcee19",
+              "value": "product",
+              "name": "Product_Info"
+            }
+          ],
+          "id": "qmAE8PJ6RvGbW6tB2N6h5Q"
+        },
+        "link": {
+          "type": "multilink",
+          "pos": 1,
+          "id": "HJKq_6oVQqGM_1S-OKyPeA"
+        }
+      },
+      "image": null,
+      "preview_field": null,
+      "is_root": false,
+      "preview_tmpl": null,
+      "is_nestable": true,
+      "all_presets": [],
+      "preset_id": null,
+      "real_name": "product_documents",
+      "component_group_uuid": "11eff8a3-c034-4fbb-afeb-f3579a46e894",
+      "color": null,
+      "icon": null,
+      "internal_tags_list": [
+        {
+          "id": 58115,
+          "name": "Product"
+        }
+      ],
+      "internal_tag_ids": [
+        "58115"
+      ],
+      "content_type_asset_preview": null,
+      "component_group_name": "Product"
+    },
+    {
+      "name": "product_variant",
+      "display_name": null,
+      "description": null,
+      "created_at": "2025-02-04T18:54:26.572Z",
+      "updated_at": "2025-02-04T21:22:21.625Z",
+      "id": 6909779,
+      "schema": {
+        "country": {
+          "type": "option",
+          "pos": 0,
+          "use_uuid": true,
+          "id": "jJkIKA0bSQKQK0-ZQhVYqA",
+          "translatable": true,
+          "options": [
+            {
+              "_uid": "94509db6-1128-49fb-93d9-10ed2f638d3a",
+              "name": "Ireland",
+              "value": "IE"
+            },
+            {
+              "_uid": "3c457623-43a1-4e40-8b9c-2e8a6a8e5892",
+              "value": "UK",
+              "name": "United Kingdom"
+            }
+          ]
+        },
+        "crop": {
+          "type": "text",
+          "pos": 1,
+          "display_name": "Target Crop",
+          "required": true,
+          "translatable": true,
+          "id": "jatWe-VvTR-WiIwx43ZxKg"
+        },
+        "crop_group": {
+          "type": "text",
+          "pos": 2,
+          "options": [],
+          "translatable": true,
+          "id": "BX5OX_frQZqsEH2MxkY3_Q"
+        },
+        "approval_number": {
+          "type": "text",
+          "pos": 3,
+          "id": "o257DYEGRLGMEkCus8LAlA"
+        },
+        "formulation_type": {
+          "type": "text",
+          "pos": 4,
+          "id": "n4rtasb3T6ah91icvcMvUw",
+          "translatable": true,
+          "required": false
+        },
+        "mechanism_of_action": {
+          "type": "text",
+          "pos": 5,
+          "id": "XLms7TuzTpWH0aXIEncljQ"
+        },
+        "container_size": {
+          "type": "text",
+          "pos": 6,
+          "id": "0y8Ob_A0TmyohICEKOUbYQ"
+        },
+        "size_unit": {
+          "type": "text",
+          "pos": 7,
+          "id": "HrjU2hX-QAuInl4HzGIz7A"
+        },
+        "units_per_package": {
+          "type": "number",
+          "pos": 8,
+          "id": "PrB6p3HmQaSGxK8BE_E-ZQ"
+        },
+        "weight": {
+          "type": "number",
+          "pos": 9,
+          "id": "LxAHKm7ySFSbBKuQhcgDJA"
+        },
+        "weight_units": {
+          "type": "text",
+          "pos": 10,
+          "id": "e68pddS6T_Kh_8EX6_t7_Q"
+        },
+        "details": {
+          "type": "bloks",
+          "pos": 11,
+          "id": "bNBl7C_YQNeeEvb2wuup2g",
+          "restrict_type": "",
+          "restrict_components": true,
+          "component_whitelist": [
+            "product_documents",
+            "active_ingredients"
+          ]
+        }
+      },
+      "image": null,
+      "preview_field": null,
+      "is_root": false,
+      "preview_tmpl": null,
+      "is_nestable": true,
+      "all_presets": [],
+      "preset_id": null,
+      "real_name": "product_variant",
+      "component_group_uuid": "11eff8a3-c034-4fbb-afeb-f3579a46e894",
+      "color": null,
+      "icon": null,
+      "internal_tags_list": [
+        {
+          "id": 58115,
+          "name": "Product"
+        }
+      ],
+      "internal_tag_ids": [
+        "58115"
+      ],
+      "content_type_asset_preview": null,
+      "component_group_name": "Product"
+    },
+    {
+      "name": "teaser",
+      "display_name": null,
+      "description": null,
+      "created_at": "2025-02-03T16:23:32.389Z",
+      "updated_at": "2025-02-03T16:23:32.389Z",
+      "id": 6902646,
+      "schema": {
+        "headline": {
+          "type": "text",
+          "id": "MTKM2xfyQzGzCixmrAzUDA"
+        }
+      },
+      "image": null,
+      "preview_field": null,
+      "is_root": false,
+      "preview_tmpl": null,
+      "is_nestable": true,
+      "all_presets": [],
+      "preset_id": null,
+      "real_name": "teaser",
+      "component_group_uuid": null,
+      "color": null,
+      "icon": null,
+      "internal_tags_list": [],
+      "internal_tag_ids": [],
+      "content_type_asset_preview": null
+    }
+  ],
+  "component_groups": [
+    {
+      "name": "Product",
+      "id": 494357,
+      "uuid": "11eff8a3-c034-4fbb-afeb-f3579a46e894",
+      "parent_id": null,
+      "parent_uuid": null
+    }
+  ]
+}

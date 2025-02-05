@@ -136,7 +136,7 @@
       "display_name": "Products",
       "description": null,
       "created_at": "2025-02-04T18:51:26.400Z",
-      "updated_at": "2025-02-04T19:14:03.963Z",
+      "updated_at": "2025-02-05T00:02:12.647Z",
       "id": 6909774,
       "schema": {
         "name": {
@@ -175,6 +175,19 @@
           "component_whitelist": [
             "product_variant"
           ]
+        },
+        "category": {
+          "type": "option",
+          "pos": 5,
+          "use_uuid": true,
+          "options": [
+            {
+              "_uid": "4d14a57c-5585-4cd9-a5ff-2f7fa2e9869c",
+              "name": "Pesticide",
+              "value": "persticide"
+            }
+          ],
+          "id": "B5RotnyBTJef1QJwMNbyTQ"
         }
       },
       "image": null,

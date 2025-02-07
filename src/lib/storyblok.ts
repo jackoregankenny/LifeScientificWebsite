@@ -1,26 +1,30 @@
-import { storyblokInit, apiPlugin } from '@storyblok/js';
-
-const { storyblokApi } = storyblokInit({
-  accessToken: process.env.NEXT_PUBLIC_STORYBLOK_TOKEN,
-  use: [apiPlugin],
-});
+import { getStoryblokApi } from '@storyblok/react/rsc';
 
 export async function getProducts() {
-  const { data } = await storyblokApi.get('cdn/stories', {
-    starts_with: 'products/',
-    content_type: 'product',
-    version: 'published',
-    cv: Date.now(),
-  });
+  const storyblokApi = getStoryblokApi();
+  if (!storyblokApi) throw new Error('Storyblok API not initialized');
+  
+  try {
+    const { data } = await storyblokApi.get('cdn/stories', {
+      version: 'published',
+      starts_with: 'products/',
+      is_startpage: false
+    });
 
-  return data.stories as ISbStoryData<ProductStoryblok>[];
+    return data.stories;
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    return [];
+  }
 }
 
 export async function getProductBySlug(slug: string) {
+  const storyblokApi = getStoryblokApi();
+  if (!storyblokApi) throw new Error('Storyblok API not initialized');
+
   const { data } = await storyblokApi.get(`cdn/stories/products/${slug}`, {
     version: 'published',
-    cv: Date.now(),
   });
 
-  return data.story as ISbStoryData<ProductStoryblok>;
+  return data.story;
 }

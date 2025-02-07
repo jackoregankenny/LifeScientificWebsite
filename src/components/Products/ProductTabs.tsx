@@ -1,23 +1,39 @@
 'use client'
 import { useState } from 'react';
-import { ProductVariantStoryblok } from '@/types/storyblok';
+import { ProductVariantStoryblok, ActiveIngredientsStoryblok, ProductDocumentsStoryblok } from '@/types/storyblok';
+import RichText from '@/components/storyblok/RichText';
+import type { ISbRichtext } from '@storyblok/react';
 
 interface ProductTabsProps {
-  description: string;
+  description: ISbRichtext;
   variants: ProductVariantStoryblok[];
-  activeIngredients?: any[];
-  documents?: any[];
+  activeIngredients?: ActiveIngredientsStoryblok[];
+  documents?: ProductDocumentsStoryblok[];
 }
 
-export default function ProductTabs({ description, variants, activeIngredients = [], documents = [] }: ProductTabsProps) {
+export default function ProductTabs({ 
+  description, 
+  variants, 
+  activeIngredients = [], 
+  documents = [] 
+}: ProductTabsProps) {
   const [activeTab, setActiveTab] = useState('description');
 
   const tabs = [
-    { id: 'description', label: 'Description' },
+    { id: 'description', label: 'Description', show: !!description },
     { id: 'specifications', label: 'Specifications', show: variants?.length > 0 },
     { id: 'ingredients', label: 'Active Ingredients', show: activeIngredients.length > 0 },
     { id: 'documents', label: 'Documents', show: documents.length > 0 },
-  ].filter(tab => tab.show !== false);
+  ].filter(tab => tab.show);
+
+  // If no tabs are available, don't render anything
+  if (tabs.length === 0) return null;
+
+  // Set active tab to first available tab if current tab is not in available tabs
+  const availableTabIds = tabs.map(tab => tab.id);
+  if (!availableTabIds.includes(activeTab)) {
+    setActiveTab(availableTabIds[0]);
+  }
 
   return (
     <div className="mt-8">
@@ -43,45 +59,45 @@ export default function ProductTabs({ description, variants, activeIngredients =
 
       <div className="mt-8">
         {activeTab === 'description' && description && (
-          <div className="prose dark:prose-invert max-w-none">
-            <div dangerouslySetInnerHTML={{ __html: description }} />
-          </div>
+          <RichText document={description} />
         )}
 
-        {activeTab === 'specifications' && variants?.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {activeTab === 'specifications' && variants && (
+          <div className="grid gap-6">
             {variants.map((variant) => (
-              <div key={variant._uid} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
-                <h3 className="text-lg font-semibold mb-4">{variant.crop} Variant</h3>
-                <dl className="space-y-3">
+              <div key={variant._uid} className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm">
+                <h3 className="text-lg font-semibold mb-4">{variant.crop} {variant.name}</h3>
+                <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {variant.approval_number && (
-                    <div className="flex justify-between items-center">
-                      <dt className="text-gray-500 dark:text-gray-400">Approval Number:</dt>
-                      <dd className="font-medium">{variant.approval_number}</dd>
+                    <div>
+                      <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">Approval Number</dt>
+                      <dd className="mt-1 text-sm text-gray-900 dark:text-gray-100">{variant.approval_number}</dd>
                     </div>
                   )}
                   {variant.formulation_type && (
-                    <div className="flex justify-between items-center">
-                      <dt className="text-gray-500 dark:text-gray-400">Formulation:</dt>
-                      <dd className="font-medium">{variant.formulation_type}</dd>
-                    </div>
-                  )}
-                  {variant.container_size && (
-                    <div className="flex justify-between items-center">
-                      <dt className="text-gray-500 dark:text-gray-400">Size:</dt>
-                      <dd className="font-medium">{`${variant.container_size} ${variant.size_unit}`}</dd>
-                    </div>
-                  )}
-                  {variant.country && (
-                    <div className="flex justify-between items-center">
-                      <dt className="text-gray-500 dark:text-gray-400">Market:</dt>
-                      <dd className="font-medium">{variant.country}</dd>
+                    <div>
+                      <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">Formulation Type</dt>
+                      <dd className="mt-1 text-sm text-gray-900 dark:text-gray-100">{variant.formulation_type}</dd>
                     </div>
                   )}
                   {variant.mechanism_of_action && (
-                    <div className="flex justify-between items-center">
-                      <dt className="text-gray-500 dark:text-gray-400">Mode of Action:</dt>
-                      <dd className="font-medium">{variant.mechanism_of_action}</dd>
+                    <div>
+                      <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">Mode of Action</dt>
+                      <dd className="mt-1 text-sm text-gray-900 dark:text-gray-100">{variant.mechanism_of_action}</dd>
+                    </div>
+                  )}
+                  {variant.container_size && (
+                    <div>
+                      <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">Container Size</dt>
+                      <dd className="mt-1 text-sm text-gray-900 dark:text-gray-100">
+                        {variant.container_size} {variant.size_unit}
+                      </dd>
+                    </div>
+                  )}
+                  {variant.country && (
+                    <div>
+                      <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">Market</dt>
+                      <dd className="mt-1 text-sm text-gray-900 dark:text-gray-100">{variant.country}</dd>
                     </div>
                   )}
                 </dl>
@@ -90,41 +106,39 @@ export default function ProductTabs({ description, variants, activeIngredients =
           </div>
         )}
 
-        {activeTab === 'ingredients' && activeIngredients?.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {activeIngredients.map((ingredient: any) => (
-              <div key={ingredient._uid} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
-                <h3 className="font-semibold mb-2">{ingredient.name}</h3>
-                <p className="text-gray-600 dark:text-gray-300">
-                  {ingredient.amount} {ingredient.units}
-                </p>
+        {activeTab === 'ingredients' && activeIngredients.length > 0 && (
+          <div className="space-y-6">
+            {activeIngredients.map((section) => (
+              <div key={section._uid} className="prose dark:prose-invert max-w-none">
+                {section.name && <h3>{section.name}</h3>}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Amount</p>
+                    <p className="mt-1 text-sm text-gray-900 dark:text-gray-100">
+                      {section.amount} {section.units}
+                    </p>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
         )}
 
-        {activeTab === 'documents' && documents?.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {documents.map((doc: any) => (
-              <a
-                key={doc._uid}
-                href={doc.link?.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center p-4 bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:shadow-xl transition-all hover:scale-105 group"
-              >
-                <div className="flex-1">
-                  <h3 className="font-semibold group-hover:text-blue-500 transition-colors">
+        {activeTab === 'documents' && documents.length > 0 && (
+          <div className="grid gap-4">
+            {documents.map((doc) => (
+              <div key={doc._uid} className="space-y-4">
+                {doc.link && (
+                  <a
+                    href={doc.link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700"
+                  >
                     {doc.document_name} Document
-                  </h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                    Click to view or download
-                  </p>
-                </div>
-                <svg className="w-6 h-6 text-gray-400 group-hover:text-blue-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-              </a>
+                  </a>
+                )}
+              </div>
             ))}
           </div>
         )}

@@ -1,95 +1,53 @@
 import { getProducts } from '@/lib/storyblok';
-import Link from 'next/link';
-import type { ProductVariantStoryblok } from '@/types/storyblok';
-import ProductFilters from '@/components/Products/ProductFilters';
+import ProductFilter from '@/components/Products/ProductFilter';
+import ProductGrid from '@/components/Products/ProductGrid';
+import type { ISbStoryData } from '@storyblok/react';
+import type { ProductStoryblok } from '@/types/storyblok';
 
-export const revalidate = 3600; // ISR every hour
-
-export default async function ProductsPage({
-  searchParams,
-}: {
+interface Props {
   searchParams: { [key: string]: string | string[] | undefined };
-}) {
-  const products = await getProducts();
-  
-  // Extract unique categories and countries from products
-  const cropGroups = new Set<string>();
-  const countries = new Set<string>();
-  
-  products.forEach((product) => {
-    product.content.variants?.forEach((variant: ProductVariantStoryblok) => {
-      if (variant.crop_group) cropGroups.add(variant.crop_group);
-      if (variant.country) countries.add(variant.country);
-    });
-  });
+}
 
-  const selectedCropGroup = typeof searchParams.category === 'string' ? searchParams.category : undefined;
-  const selectedCountry = typeof searchParams.country === 'string' ? searchParams.country : undefined;
+interface StoryblokProduct extends ISbStoryData {
+  content: ProductStoryblok;
+}
 
-  // Filter products based on selected filters
-  const filteredProducts = products.filter((product) => {
-    if (!selectedCropGroup && !selectedCountry) return true;
-    
-    return product.content.variants?.some(
-      (variant: ProductVariantStoryblok) =>
-        (!selectedCropGroup || variant.crop_group === selectedCropGroup) &&
-        (!selectedCountry || variant.country === selectedCountry)
-    );
-  });
+type ProductCategory = NonNullable<ProductStoryblok['category']>;
+
+export default async function ProductsPage({ searchParams }: Props) {
+  const products = await getProducts() as StoryblokProduct[];
+  const category = searchParams.category as ProductCategory | undefined;
+
+  // Get unique categories from products
+  const categories = Array.from(
+    new Set(
+      products
+        .map((product) => product.content.category)
+        .filter((cat): cat is ProductCategory => cat !== undefined && cat !== '')
+    )
+  );
+
+  // Filter products by category if one is selected
+  const filteredProducts = category
+    ? products.filter((product) => product.content.category === category)
+    : products;
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-8">Product Catalog</h1>
-      
-      {/* Filters */}
-      <ProductFilters
-        cropGroups={Array.from(cropGroups)}
-        countries={Array.from(countries)}
-        selectedCropGroup={selectedCropGroup}
-        selectedCountry={selectedCountry}
-      />
-
-      {/* Products Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {filteredProducts.length === 0 ? (
-          <div className="col-span-full text-center py-8 text-muted-foreground">
-            No products found matching the selected filters.
-          </div>
-        ) : (
-          filteredProducts.map((product) => (
-            <Link
-              key={product.uuid}
-              href={`/products/${product.slug}`}
-              className="border p-4 rounded-lg hover:shadow-lg transition-shadow"
-            >
-              <div className="aspect-square mb-4">
-                {product.content.product?.filename && (
-                  <img
-                    src={product.content.product.filename}
-                    alt={product.content.name}
-                    className="w-full h-full object-contain"
-                  />
-                )}
-              </div>
-              <h2 className="text-xl font-semibold">{product.content.name}</h2>
-              <p className="text-muted-foreground mt-2">
-                {product.content.tagline}
-              </p>
-              {product.content.variants && product.content.variants.length > 0 && (
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {product.content.variants.map((variant: ProductVariantStoryblok) => (
-                    <span
-                      key={variant._uid}
-                      className="inline-flex items-center px-2 py-1 rounded-full text-xs bg-gray-100"
-                    >
-                      {variant.crop_group}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </Link>
-          ))
-        )}
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-3xl font-bold mb-8">Our Products</h1>
+      <div className="flex flex-col md:flex-row gap-8">
+        <aside className="md:w-64">
+          <ProductFilter categories={categories} activeCategory={category} />
+        </aside>
+        <main className="flex-1">
+          <ProductGrid 
+            products={filteredProducts.map(product => ({
+              ...product.content,
+              slug: product.slug,
+              _uid: product.uuid
+            }))} 
+          />
+        </main>
       </div>
     </div>
   );

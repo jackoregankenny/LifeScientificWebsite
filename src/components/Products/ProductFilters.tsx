@@ -1,6 +1,8 @@
 // components/ProductFilters.tsx
 "use client";
 
+import { useRouter, useSearchParams } from 'next/navigation';
+
 interface ProductFiltersProps {
   cropGroups: string[];
   countries: string[];
@@ -14,49 +16,46 @@ export default function ProductFilters({
   selectedCropGroup,
   selectedCountry,
 }: ProductFiltersProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   const handleFilterChange = (key: string, value: string) => {
-    const url = new URL(window.location.href);
+    const params = new URLSearchParams(searchParams.toString());
     if (value) {
-      url.searchParams.set(key, value);
+      params.set(key, value);
     } else {
-      url.searchParams.delete(key);
+      params.delete(key);
     }
-    window.location.href = url.toString();
+    router.push(`/products?${params.toString()}`);
   };
 
   return (
-    <div className="mb-8 flex flex-wrap gap-4">
-      <div className="flex-1 min-w-[200px]">
-        <label className="block text-sm font-medium mb-2">Crop Group</label>
-        <select
-          className="w-full border rounded-md p-2"
-          onChange={(e) => handleFilterChange('category', e.target.value)}
-          value={selectedCropGroup || ''}
-        >
-          <option value="">All Crop Groups</option>
-          {cropGroups.map((group) => (
-            <option key={group} value={group}>
-              {group}
-            </option>
-          ))}
-        </select>
-      </div>
-      
-      <div className="flex-1 min-w-[200px]">
-        <label className="block text-sm font-medium mb-2">Country</label>
-        <select
-          className="w-full border rounded-md p-2"
-          onChange={(e) => handleFilterChange('country', e.target.value)}
-          value={selectedCountry || ''}
-        >
-          <option value="">All Countries</option>
-          {countries.map((country) => (
-            <option key={country} value={country}>
-              {country}
-            </option>
-          ))}
-        </select>
-      </div>
+    <div className="mb-8 flex gap-4">
+      <select
+        className="border rounded-md px-3 py-2"
+        value={selectedCropGroup || ''}
+        onChange={(e) => handleFilterChange('category', e.target.value)}
+      >
+        <option value="">All Crop Groups</option>
+        {cropGroups.map((group) => (
+          <option key={group} value={group}>
+            {group}
+          </option>
+        ))}
+      </select>
+
+      <select
+        className="border rounded-md px-3 py-2"
+        value={selectedCountry || ''}
+        onChange={(e) => handleFilterChange('country', e.target.value)}
+      >
+        <option value="">All Countries</option>
+        {countries.map((country) => (
+          <option key={country} value={country}>
+            {country}
+          </option>
+        ))}
+      </select>
     </div>
   );
 }

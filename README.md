@@ -250,3 +250,19 @@ NEXT_PUBLIC_STORYBLOK_API_TOKEN=your_public_token
 ## 📄 License
 
 This project is licensed under the MIT License.
+
+## 🏗 Architecture Decisions
+
+### Component Data Fetching
+
+We follow a component-based data fetching approach where each component is responsible for fetching its own Storyblok data. This decision was made for several reasons:
+
+1. **Component Autonomy**: Components like the Navbar fetch their own data directly from Storyblok, making them more self-contained and reusable.
+2. **Simplified Debugging**: When issues arise with data fetching, it's easier to debug as the data fetching logic lives directly in the component that uses it.
+3. **Better Performance**: Components can implement their own caching and revalidation strategies based on their specific needs.
+4. **Easier Testing**: Components can be tested in isolation since they manage their own data dependencies.
+
+Example: The Navbar component fetches its own configuration from a Storyblok story named "navbar", allowing it to be:
+- Independently configurable through Storyblok
+- Reusable across different layouts
+- Self-contained with its own error handling and fallback states

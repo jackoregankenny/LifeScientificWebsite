@@ -1,10 +1,16 @@
 'use client';
 
 import { storyblokInit, apiPlugin } from "@storyblok/react";
-import { type PropsWithChildren } from "react";
-import { Grid, Section, Hero, CategoryCard, ProductCategories } from "./storyblok";
-import Page from "./storyblok/Page";
-import Product from "./storyblok/Product";
+import { PropsWithChildren, useEffect, useState } from "react";
+
+// Import all your Storyblok components here
+import Grid from './storyblok/Grid';
+import Section from './storyblok/Section';
+import Hero from './storyblok/Hero';
+import CategoryCard from './storyblok/CategoryCard';
+import ProductCategories from './storyblok/ProductCategories';
+import Page from './storyblok/Page';
+import Product from './storyblok/Product';
 
 const components = {
   page: Page,
@@ -16,15 +22,22 @@ const components = {
   product: Product,
 };
 
-// Initialize Storyblok outside of component
-storyblokInit({
-  accessToken: process.env.NEXT_PUBLIC_STORYBLOK_API_TOKEN,
-  use: [apiPlugin],
-  components,
-});
+export default function StoryblokProvider({ children }: PropsWithChildren) {
+  const [initialized, setInitialized] = useState(false);
 
-function StoryblokProvider({ children }: PropsWithChildren) {
+  useEffect(() => {
+    // Initialize Storyblok on the client side
+    storyblokInit({
+      accessToken: process.env.NEXT_PUBLIC_STORYBLOK_API_TOKEN,
+      use: [apiPlugin],
+      components,
+    });
+    setInitialized(true);
+  }, []);
+
+  if (!initialized) {
+    return null; // or a loading state
+  }
+
   return <>{children}</>;
-}
-
-export default StoryblokProvider; 
+} 

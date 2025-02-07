@@ -1,11 +1,14 @@
 import { getStoryblokApi } from '@storyblok/react/rsc';
+import StoryblokClient from 'storyblok-js-client';
+
+// Create a Storyblok client for server-side operations
+const Storyblok = new StoryblokClient({
+  accessToken: process.env.NEXT_PUBLIC_STORYBLOK_API_TOKEN,
+});
 
 export async function getProducts() {
-  const storyblokApi = getStoryblokApi();
-  if (!storyblokApi) throw new Error('Storyblok API not initialized');
-  
   try {
-    const { data } = await storyblokApi.get('cdn/stories', {
+    const { data } = await Storyblok.get('cdn/stories', {
       version: 'published',
       starts_with: 'products/',
       is_startpage: false
@@ -19,12 +22,21 @@ export async function getProducts() {
 }
 
 export async function getProductBySlug(slug: string) {
+  try {
+    const { data } = await Storyblok.get(`cdn/stories/products/${slug}`, {
+      version: 'published',
+    });
+
+    return data.story;
+  } catch (error) {
+    console.error('Error fetching product:', error);
+    throw error;
+  }
+}
+
+// For client components that need the Storyblok API
+export function getStoryblokApiClient() {
   const storyblokApi = getStoryblokApi();
   if (!storyblokApi) throw new Error('Storyblok API not initialized');
-
-  const { data } = await storyblokApi.get(`cdn/stories/products/${slug}`, {
-    version: 'published',
-  });
-
-  return data.story;
+  return storyblokApi;
 }

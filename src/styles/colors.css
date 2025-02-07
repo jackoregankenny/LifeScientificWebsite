@@ -1,0 +1,26 @@
+:root {
+  /* Primary Colors */
+  --primary: #0ea5e9;      /* Main brand color */
+  --primary-dark: #0369a1; /* Hover states, active states */
+  --primary-light: #7dd3fc; /* Subtle backgrounds, borders */
+  
+  /* Neutral Colors */
+  --white: #ffffff;
+  --black: #000000;
+  --gray: #64748b;         /* Secondary text */
+  
+  /* Semantic Colors */
+  --text-primary: var(--black);
+  --text-secondary: var(--gray);
+  --text-light: var(--white);
+  
+  /* UI Elements */
+  --bg-primary: var(--white);
+  --bg-secondary: #f8fafc;  /* Light gray background */
+  --bg-dark: #1e293b;      /* Dark sections like footer */
+  
+  /* Interactive Elements */
+  --button-primary: var(--primary);
+  --button-hover: var(--primary-dark);
+  --border-color: #e2e8f0;  /* Light borders */
+} 

@@ -1,21 +1,42 @@
-// components/storyblok/Page.tsx
+// src/components/storyblok/Page.tsx
 'use client';
 
 import { storyblokEditable, StoryblokComponent } from "@storyblok/react";
-import type { PageStoryblok } from "@/types/storyblok";
+import { useStoryblok } from "@/hooks/use-storyblok";
 
-interface PageProps {
-  blok: PageStoryblok;
+interface PageData {
+  _uid: string;
+  body?: any[];
+  component: 'page';
 }
 
-export default function Page({ blok }: PageProps) {
-  if (!blok?.body) {
-    return <div className="container mx-auto px-4 py-8">Loading...</div>;
+interface PageProps {
+  blok?: PageData;
+  slug?: string;
+}
+
+export default function Page({ blok, slug }: PageProps) {
+  const { story, loading, error } = slug 
+    ? useStoryblok<{ content: PageData }>(slug)
+    : { story: blok ? { content: blok } : null, loading: false, error: null };
+
+  if (loading) {
+    return <div className="animate-pulse">Loading...</div>;
+  }
+
+  if (error || !story?.content) {
+    return <div className="text-red-500">Failed to load page content</div>;
+  }
+
+  const content = story.content;
+
+  if (!content.body) {
+    return <div>No content found</div>;
   }
 
   return (
-    <div {...storyblokEditable(blok)} className="container mx-auto px-4 py-8">
-      {blok.body.map((nestedBlok) => (
+    <div {...storyblokEditable(content)}>
+      {content.body.map((nestedBlok) => (
         <StoryblokComponent 
           blok={nestedBlok} 
           key={nestedBlok._uid} 

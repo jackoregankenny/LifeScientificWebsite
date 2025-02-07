@@ -3,39 +3,36 @@
 
 import { storyblokEditable } from "@storyblok/react";
 import type { HeroSectionStoryblok } from "@/types/storyblok";
-import styles from './Hero.module.css';
 
 interface HeroProps {
   blok: HeroSectionStoryblok;
 }
 
-function Hero({ blok }: HeroProps) {
-  if (!blok) {
-    console.error('No blok prop provided to Hero component');
-    return null;
-  }
-
+export default function Hero({ blok }: HeroProps) {
   return (
-    <div {...storyblokEditable(blok)} className={styles.hero}>
-      {/* Background with default dark color */}
-      <div className={styles.background}>
+    <section 
+      {...storyblokEditable(blok)}
+      className="relative min-h-[600px] flex items-center bg-gray-900"
+    >
+      {/* Background */}
+      <div className="absolute inset-0 z-0">
         {blok.background_image?.filename && (
           <img
             src={blok.background_image.filename}
             alt={blok.background_image.alt || ''}
-            className={styles.background_image}
+            className="w-full h-full object-cover opacity-60"
           />
         )}
       </div>
 
       {/* Content */}
-      <div className={styles.content}>
-        <div className={styles.content_inner}>
-          <h1 className={styles.heading}>
+      <div className="relative z-10 container mx-auto px-4">
+        <div className="max-w-3xl">
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
             {blok.headline || 'Welcome to Life Scientific'}
           </h1>
           
-          <p className={styles.subheading}>
+          <p className="text-xl md:text-2xl text-white/90 mb-8">
             {blok.subheadline || 'Innovative Crop Protection Solutions'}
           </p>
 
@@ -43,15 +40,13 @@ function Hero({ blok }: HeroProps) {
             <a
               href={blok.cta_link?.cached_url || '#'}
               target={blok.cta_link?.target || '_self'}
-              className={styles.cta_button}
+              className="inline-block px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
             >
               {blok.cta_text}
             </a>
           )}
         </div>
       </div>
-    </div>
+    </section>
   );
 }
-
-export default Hero;
